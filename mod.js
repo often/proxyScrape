@@ -1,5 +1,5 @@
 export default class proxyScrape {
-	static async get(type, timeout, countryCode) {
+	static async get(type, timeout, countryCode, ssl, anonymity) {
 		if (!type) return 'Missing proxy type (http/socks4/socks5)'
 
 		const types = ['http', 'socks4', 'socks5']
@@ -14,7 +14,19 @@ export default class proxyScrape {
 
 		if (!countryCode) return 'Missing country code, for more see: https://countrycode.org/'
 
-		const scraped = await fetch('https://api.proxyscrape.com/?request=displayproxies&proxytype=' + type + '&timeout=' + timeout + '&country=' + countryCode + '&ssl=all&anonymity=all')
+		if (!ssl) return 'Missing SSL support type (all/yes/no)'
+
+		const ssl_types = ['all', 'yes', 'no']
+
+		if (!ssl_types.includes(ssl)) return 'Invalid SSL support type, available ones are: all, yes and no'
+
+		if (!anonymity) return 'Missing anonymity type (all/elite/anonymous/transparent)'
+
+		const anonymity_types = ['all', 'elite', 'anonymous', 'transparent']
+
+		if (!anonymity_types.includes(anonymity)) return 'Invalid anonymity type, available ones are: all, elite, anonymous, transparent'
+
+		const scraped = await fetch('https://api.proxyscrape.com/?request=displayproxies&proxytype=' + type + '&timeout=' + timeout + '&country=' + countryCode + '&ssl=' + ssl + '&anonymity=' + anonymity)
 
 		return scraped.text()
 	}
