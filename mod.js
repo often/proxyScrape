@@ -1,30 +1,30 @@
 export default class proxyScrape {
 	static async get(type, timeout, countryCode, ssl, anonymity) {
-		if (!type) return 'Missing proxy type (http/socks4/socks5)'
+		if (!type) throw 'missing proxy type (http/socks4/socks5)'
 
 		const types = ['http', 'socks4', 'socks5']
 
-		if (!types.includes(type)) return 'Invalid proxy type, available ones are: http, socks4 and socks5'
+		if (!types.includes(type)) throw 'invalid proxy type, available ones are: http, socks4 and socks5'
 
-		if (!timeout) return 'Missing proxy timeout (ms)'
+		if (!timeout) throw 'missing proxy timeout (ms)'
 
-		if (!Number.isInteger(timeout)) return 'Timeout must be an integer'
+		if (!Number.isInteger(timeout)) throw 'timeout must be an integer'
 
-		if (timeout < 50 || timeout > 10000) return 'Timeout must be in range between 50 and 10000ms'
+		if (timeout < 50 || timeout > 10000) throw 'timeout must be in range between 50 and 10000ms'
 
-		if (!countryCode) return 'Missing country code, for more see: https://countrycode.org/'
+		if (!countryCode) throw 'missing country code, for more see: https://countrycode.org/'
 
-		if (!ssl) return 'Missing SSL support type (all/yes/no)'
+		if (!ssl) throw 'missing SSL support type (all/yes/no)'
 
 		const ssl_types = ['all', 'yes', 'no']
 
-		if (!ssl_types.includes(ssl)) return 'Invalid SSL support type, available ones are: all, yes and no'
+		if (!ssl_types.includes(ssl)) throw 'invalid SSL support type, available ones are: all, yes and no'
 
-		if (!anonymity) return 'Missing anonymity type (all/elite/anonymous/transparent)'
+		if (!anonymity) throw 'missing anonymity type (all/elite/anonymous/transparent)'
 
 		const anonymity_types = ['all', 'elite', 'anonymous', 'transparent']
 
-		if (!anonymity_types.includes(anonymity)) return 'Invalid anonymity type, available ones are: all, elite, anonymous, transparent'
+		if (!anonymity_types.includes(anonymity)) throw 'invalid anonymity type, available ones are: all, elite, anonymous, transparent'
 
 		const scraped = await fetch('https://api.proxyscrape.com/?request=displayproxies&proxytype=' + type + '&timeout=' + timeout + '&country=' + countryCode + '&ssl=' + ssl + '&anonymity=' + anonymity)
 
